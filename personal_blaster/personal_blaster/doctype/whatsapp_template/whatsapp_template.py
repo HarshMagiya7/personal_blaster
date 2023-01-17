@@ -60,11 +60,11 @@ class WhatsappTemplate(Document):
 
 	def create_template_buttons(self,first_button,second_button,name):
 		url = "https://integrations.messagebird.com/v2/platforms/whatsapp/templates"
-
+		print("button")
 		payload = json.dumps({
 		"language": "en",
 		"components": [
-			self.api_body(),
+				self.api_body(),
 			{
 				"type": "BUTTONS",
 				"buttons": [
@@ -80,7 +80,7 @@ class WhatsappTemplate(Document):
 			}
 			],
 			"name": name,
-			"category": "TRANSACTIONAL"
+			"category": "MARKETING"
 		})
 		headers = self.get_header()
 #			'Authorization': f'AccessKey {access}',
@@ -95,21 +95,19 @@ class WhatsappTemplate(Document):
 
 	def create_template(self,name):
 		url = "https://integrations.messagebird.com/v2/platforms/whatsapp/templates"
-
+		print("non_button")
 		payload = json.dumps({
 		"language": "en",
-		"components": [
-			self.api_body(),
-			],
+		"components":self.api_body(),
 			"name": name,
-			"category": "TRANSACTIONAL"
+			"category": "MARKETING"
 		})
 		headers = self.get_header()
 #			'Authorization': f'AccessKey {access}',
 #			'Content-Type': 'application/json'
 #		}
 
-
+		print(payload)
 		print(payload)
 		response = requests.request("POST", url, headers=headers, data=payload)
 
@@ -121,6 +119,7 @@ class WhatsappTemplate(Document):
 		frappe.db.commit()
 
 	def api_body(self):
+		components_list = []
 		body_list = []
 		message = {"type": "BODY","text": self.message}
 		if self.field_list:
@@ -134,7 +133,32 @@ class WhatsappTemplate(Document):
 			examples.append(example_list)
 			example_dict = {"example":{"body_text": examples}}
 			message.update(example_dict)
-		return message
+		components_list.append(message)
+		# Checking for headers
+		if self.header:
+			header = {"type" : "HEADER", "format": self.header_type }
+			if self.header_type == "TEXT":
+				header.update({"text":self.header_text})
+			else:
+				header_example = {"example": {
+					"header_url": [
+						self.media_url()
+						]
+				}	}
+
+				header.update(header_example)
+			components_list.append(header)
+		return components_list
+
+	def media_url(self):
+
+		if self.header_type == "IMAGE":
+			media_url = frappe.utils.get_url() + self.header_image
+		elif self.header_type == "VIDEO":
+			media_url = frappe.utils.get_url() + self.header_video
+		elif self.header_type == "DOCUMENT":
+			media_url = frappe.utils.get_url() + self.header_document
+		return media_url
 
 	def get_header(self):
 		access_token_doc = frappe.get_doc('Whatsapp Setting')

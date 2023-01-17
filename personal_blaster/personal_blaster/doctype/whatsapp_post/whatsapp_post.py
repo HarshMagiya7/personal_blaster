@@ -93,7 +93,7 @@ class WhatsappPost(Document):
  			"from": whatsapp_token,
  			"type": "hsm",
  			"content": {
-				"hsm": self.hsm_data(message,client)
+				"hsm": self.hsm_data(message,client),
 #					"namespace": "5ba2d0b7_f2c6_433b_a66e_57b009ceb6ff",
 #					"templateName": message,
 #					"language": {
@@ -101,6 +101,7 @@ class WhatsappPost(Document):
 #						"code": "en"
 #					}
 #				}
+				"components": self.components()
 			}
 		})
 
@@ -116,6 +117,37 @@ class WhatsappPost(Document):
 		response = requests.request("POST", url, headers=headers, data=payload)
 		print(response.text)
 		return response.text
+
+
+	def components(self):
+		component_list = []
+		if not self.header:
+			return component_list
+		if self.header_type == 'TEXT':
+			return component_list
+		component = {
+			"type":"header",
+			"parameters":[{
+				"type": self.header_type.lower(),
+				self.header_type.lower() : {
+					"url" : self.media_url()
+				}
+			}]
+		}
+		component_list.append(component)
+		return component_list
+
+	def media_url(self):
+
+		if self.header_type == "IMAGE":
+			media_url = frappe.utils.get_url() + self.header_image
+		elif self.header_type == "VIDEO":
+			media_url = frappe.utils.get_url() + self.header_video
+		elif self.header_type == "DOCUMENT":
+			media_url = frappe.utils.get_url() + self.header_document
+		return media_url
+
+
 	def hsm_data(self,message,client):
 		hsm_body = {"namespace":"5ba2d0b7_f2c6_433b_a66e_57b009ceb6ff","templateName": message,"language": {"policy": "deterministic","code": "en"}}
 #		placeholders = frappe.db.get_list('Whatsapp Placeholder',filters={"parent":message},fields=["field"],as_list = 1)

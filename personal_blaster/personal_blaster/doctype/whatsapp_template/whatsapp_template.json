@@ -11,6 +11,12 @@
   "temp_status",
   "field_list",
   "column_break_4",
+  "header",
+  "header_type",
+  "header_text",
+  "header_image",
+  "header_video",
+  "header_document",
   "button",
   "button_1",
   "button_2"
@@ -69,11 +75,53 @@
    "fieldtype": "Table",
    "label": "Fields",
    "options": "Whatsapp Placeholder"
+  },
+  {
+   "depends_on": "eval:doc.header",
+   "fieldname": "header_type",
+   "fieldtype": "Select",
+   "label": "Header Type",
+   "mandatory_depends_on": "eval:doc.header",
+   "options": "\nTEXT\nIMAGE"
+  },
+  {
+   "depends_on": "eval:doc.header_type == \"TEXT\" && doc.header",
+   "fieldname": "header_text",
+   "fieldtype": "Data",
+   "label": "Header Text",
+   "mandatory_depends_on": "eval:doc.header_type == \"TEXT\" && doc.header"
+  },
+  {
+   "depends_on": "eval:doc.header_type == \"IMAGE\" && doc.header",
+   "fieldname": "header_image",
+   "fieldtype": "Attach Image",
+   "label": "Sample Header Imag",
+   "mandatory_depends_on": "eval:doc.header_type == \"IMAGE\" && doc.header"
+  },
+  {
+   "depends_on": "eval:doc.header_type == \"VIDEO\" && doc.header",
+   "fieldname": "header_video",
+   "fieldtype": "Attach",
+   "label": "Sample Header Vide",
+   "mandatory_depends_on": "eval:doc.header_type == \"VIDEO\" && doc.header"
+  },
+  {
+   "depends_on": "eval:doc.header_type == \"DOCUMENT\" && doc.header",
+   "fieldname": "header_document",
+   "fieldtype": "Attach",
+   "label": "Sample Header Document",
+   "mandatory_depends_on": "eval:doc.header_type == \"DOCUMENT\" && doc.header"
+  },
+  {
+   "default": "0",
+   "fieldname": "header",
+   "fieldtype": "Check",
+   "label": "Header"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-02 21:03:57.335282",
+ "modified": "2023-01-17 13:12:27.632332",
  "modified_by": "Administrator",
  "module": "Personal Blaster",
  "name": "Whatsapp Template",
