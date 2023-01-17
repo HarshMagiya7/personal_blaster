@@ -101,7 +101,7 @@ class WhatsappPost(Document):
 #						"code": "en"
 #					}
 #				}
-				"components": self.components()
+#				"components": self.components()
 			}
 		})
 
@@ -149,7 +149,7 @@ class WhatsappPost(Document):
 
 
 	def hsm_data(self,message,client):
-		hsm_body = {"namespace":"5ba2d0b7_f2c6_433b_a66e_57b009ceb6ff","templateName": message,"language": {"policy": "deterministic","code": "en"}}
+		hsm_body = {"namespace":"5ba2d0b7_f2c6_433b_a66e_57b009ceb6ff","templateName": message,"language": {"policy": "deterministic","code": "en"},"components": self.components()}
 #		placeholders = frappe.db.get_list('Whatsapp Placeholder',filters={"parent":message},fields=["field"],as_list = 1)
 		placeholders = frappe.db.get_list("Whatsapp Template",filters={'temp_name':message},fields=["`tabWhatsapp Placeholder`.`field`"],as_list =1)
 		if not placeholders[0][0]:
