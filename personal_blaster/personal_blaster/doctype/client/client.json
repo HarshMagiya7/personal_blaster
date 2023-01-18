@@ -12,6 +12,10 @@
   "phone",
   "mobile_no",
   "email_id",
+  "company",
+  "job_title",
+  "industry",
+  "market_segment",
   "address_column",
   "add_1",
   "add_2",
@@ -23,6 +27,10 @@
   "phone_nos",
   "email_ids",
   "interests",
+  "channels_section",
+  "whatsapp",
+  "email",
+  "sms",
   "linked_doctype_section",
   "linked_customer",
   "linked_contact",
@@ -174,11 +182,54 @@
    "label": "Linked Address",
    "options": "Address",
    "unique": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Data",
+   "label": "Company"
+  },
+  {
+   "fieldname": "job_title",
+   "fieldtype": "Data",
+   "label": "Job Title"
+  },
+  {
+   "fieldname": "industry",
+   "fieldtype": "Data",
+   "label": "Industry"
+  },
+  {
+   "fieldname": "market_segment",
+   "fieldtype": "Data",
+   "label": "Market Segment"
+  },
+  {
+   "fieldname": "channels_section",
+   "fieldtype": "Section Break",
+   "label": "Channels"
+  },
+  {
+   "default": "1",
+   "fieldname": "whatsapp",
+   "fieldtype": "Check",
+   "label": "Whatsapp"
+  },
+  {
+   "default": "1",
+   "fieldname": "email",
+   "fieldtype": "Check",
+   "label": "Email"
+  },
+  {
+   "default": "1",
+   "fieldname": "sms",
+   "fieldtype": "Check",
+   "label": "SMS"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-03 21:36:13.520714",
+ "modified": "2023-01-18 00:22:48.154454",
  "modified_by": "Administrator",
  "module": "Personal Blaster",
  "name": "Client",
